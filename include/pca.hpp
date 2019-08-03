@@ -20,7 +20,7 @@ namespace AMWPHI001
 using namespace std;
 using namespace Eigen;
 
-class pca
+class Analyser
 {
 private:
     /* data */
@@ -31,9 +31,9 @@ private:
     float proportion2;
 
 public:
-    pca();
-    ~pca();
-    void readFile(const char *fileName);
+    Analyser();
+    ~Analyser();
+    vector readFile(string fileName);
     void computeEigenValues();
     void computeEigenVectors();
     void computeCovarianceMatrix();
@@ -41,14 +41,6 @@ public:
     void computeVarianceProportions();
     void startPCS();
 };
-
-pca::pca(/* args */)
-{
-}
-
-pca::~pca()
-{
-}
 }; // namespace AMWPHI001
 
 #endif // !PCA_HPP

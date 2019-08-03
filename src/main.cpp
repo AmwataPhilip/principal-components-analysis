@@ -1,8 +1,7 @@
 #include "../include/pca.hpp"
 
 int main(int argc, const char** argv) {
-    using namespace AMPHI001;
-    pca analysis;
-    analysis.readFile();
+    AMWPHI001::Analyser analysis;
+    analysis.readFile(argv[1]);
     return 0;
 }
