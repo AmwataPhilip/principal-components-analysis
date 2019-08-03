@@ -2,7 +2,7 @@
 
 using namespace AMWPHI001;
 
-Analyser::vectorPair Analyser::readFile(string fileName)
+MatrixX2f Analyser::readFile(string fileName)
 {
     string relativePath = "src/" + fileName;
     cout << "Reading File: " << fileName << endl;
@@ -15,7 +15,7 @@ Analyser::vectorPair Analyser::readFile(string fileName)
 
     vector<string> row, cols;            // Row stores lines and cols stores each cell
     vector<float> januaryData, julyData; // Store the data for each month
-    Analyser::vectorPair dataPoints;     // Store januaryData and julyData
+    MatrixX2f initialMatrix;             // Store with 2 vectors and their 64 observations
     string line, word, temp;
     int sum = 0;
 
@@ -36,6 +36,7 @@ Analyser::vectorPair Analyser::readFile(string fileName)
             cols.push_back(word);
         }
     }
+
     for (int c = 0; c != cols.size() - 1; c++)
     {
         if (c % 2 == 0)
@@ -47,29 +48,47 @@ Analyser::vectorPair Analyser::readFile(string fileName)
             julyData.push_back(stof(cols[c]));
         }
     }
-    dataPoints.first = januaryData;
-    dataPoints.second = julyData;
-    return dataPoints;
-}
-void Analyser::computeEigenValues(Analyser::vectorPair dataPoints)
-{
-    float mean1 = accumulate(dataPoints.first.begin(), dataPoints.first.end(), 0.0f) / dataPoints.first.size();
-    float mean2 = accumulate(dataPoints.second.begin(), dataPoints.second.end(), 0.0f) / dataPoints.second.size();
-    float covariance = 0.0f;
-    cout << mean1 << endl;
-    cout << mean2 << endl;
-    for (int n = 0; n < dataPoints.first.size(); n++)
+
+    for (int n = 0; n < januaryData.size(); n++)
     {
-        dataPoints.first[n] -= mean1;
-        dataPoints.second[n] -= mean2;
-        covariance += dataPoints.first[n] * dataPoints.second[n];
+        initialMatrix(n, 0) = januaryData[n];
+        initialMatrix(n, 1) = julyData[n];
     }
+
+    return initialMatrix;
 }
-void Analyser::computeEigenVectors() {}
-void Analyser::computeCovarianceMatrix() {}
+void Analyser::computeCovarianceMatrix(MatrixXf intiMat)
+{
+}
+void Analyser::eigenSolve(SelfAdjointEigenSolver<MatrixXf> eigenSolver, MatrixX2f initialMatrix)
+{
+    eigenSolver.computeDirect(initialMatrix);
+
+    cout << "Eigenvalues: " << endl
+         << eigenSolver.eigenvalues << endl;
+    cout << "Eigenvectors: " << endl
+         << eigenSolver.eigenvectors << endl;
+}
+
 void Analyser::computeTotalVariance() {}
 void Analyser::computeVarianceProportions() {}
-void Analyser::startPCS() {}
+void Analyser::startPCS(string fname)
+{
+    Analyser::Analyser pca;
+    SelfAdjointEigenSolver<MatrixXf> eigenSolver;
+    try
+    {
+        cout << "Starting PCA Analysis of data-sets." << endl;
+        MatrixX2f initMat = pca.readFile(fname);
+        pca.eigenSolve(eigenSolver, initMat);
+
+        cout << "PCA analysis complete." << endl;
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+}
 
 Analyser::Analyser()
 {

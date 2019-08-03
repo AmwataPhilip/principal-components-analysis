@@ -27,7 +27,7 @@ private:
     /* data */
     pair<float, float> eigenValues;
     pair<float, float> eigenVectors;
-    Matrix2f covarianceMatrix;
+    MatrixXf covarianceMatrix;
     float proportion1;
     float proportion2;
 
@@ -37,13 +37,12 @@ public:
 
     typedef std::pair<vector<float>, vector<float>> vectorPair;
 
-    vectorPair readFile(string fileName);
-    void computeEigenValues(vectorPair dataPoints);
-    void computeEigenVectors();
-    void computeCovarianceMatrix();
+    MatrixX2f readFile(string fileName);
+    void eigenSolve(SelfAdjointEigenSolver<MatrixXf> eigenSolver, MatrixX2f initialMatrix);
+    void computeCovarianceMatrix(MatrixXf initMat);
     void computeTotalVariance();
     void computeVarianceProportions();
-    void startPCS();
+    void startPCS(string fname);
 };
 }; // namespace AMWPHI001
 
