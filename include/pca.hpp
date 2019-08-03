@@ -4,6 +4,9 @@
 #include <cstdio>
 #include <iostream>
 #include <utility>
+#include <fstream>
+#include <string>
+#include <vector>
 #include "Eigen/Core"
 #include "Eigen/LU"
 #include "Eigen/Cholesky"
@@ -12,6 +15,8 @@
 #include "Eigen/Geometry"
 #include "Eigen/Eigenvalues"
 
+namespace AMWPHI001
+{
 using namespace std;
 using namespace Eigen;
 
@@ -26,9 +31,9 @@ private:
     float proportion2;
 
 public:
-    pca(/* args */);
+    pca();
     ~pca();
-    void readFile();
+    void readFile(const char *fileName);
     void computeEigenValues();
     void computeEigenVectors();
     void computeCovarianceMatrix();
@@ -36,5 +41,14 @@ public:
     void computeVarianceProportions();
     void startPCS();
 };
+
+pca::pca(/* args */)
+{
+}
+
+pca::~pca()
+{
+}
+}; // namespace AMWPHI001
 
 #endif // !PCA_HPP
