@@ -7,6 +7,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <numeric>
 #include "Eigen/Core"
 #include "Eigen/LU"
 #include "Eigen/Cholesky"
@@ -33,8 +34,11 @@ private:
 public:
     Analyser();
     ~Analyser();
-    vector readFile(string fileName);
-    void computeEigenValues();
+
+    typedef std::pair<vector<float>, vector<float>> vectorPair;
+
+    vectorPair readFile(string fileName);
+    void computeEigenValues(vectorPair dataPoints);
     void computeEigenVectors();
     void computeCovarianceMatrix();
     void computeTotalVariance();
