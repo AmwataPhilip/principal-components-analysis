@@ -38,11 +38,11 @@ public:
     typedef std::pair<vector<float>, vector<float>> vectorPair;
 
     MatrixX2f readFile(string fileName);
-    void eigenSolve(SelfAdjointEigenSolver<MatrixXf> eigenSolver, MatrixX2f initialMatrix);
-    void computeCovarianceMatrix(MatrixXf initMat);
-    void computeTotalVariance();
-    void computeVarianceProportions();
-    void startPCS(string fname);
+    void eigenSolve(MatrixX2f initialMatrix);
+    vector<float> computeCovarianceMatrix(vector<float> january, vector<float> july);
+    void computeTotalVariance(vector<float> x);
+    void computeVarianceProportions(vector<float> y);
+    void startPCS(string fname, Analyser pca);
 };
 }; // namespace AMWPHI001
 

@@ -1,7 +1,7 @@
 # Philip Amwata
 # 30/07/2019
 
-CC := g++ -std=c++11
+CC := g++
 SRCDIR := src
 BUILDDIR := build
 TARGET := bin/pca
@@ -9,7 +9,7 @@ TARGET := bin/pca
 SRCEXT := cpp
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
-CFLAGS := -g # -Wall
+CFLAGS := -std=c++11 -g # -Wall
 LIB :=
 INC := -I include
 
@@ -19,6 +19,7 @@ $(TARGET): $(OBJECTS)
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p $(BUILDDIR)
+	@echo " Compiling...";
 	@echo " $(CC) $(CFLAGS) $(INC) -c -o $@ $<"; $(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
 clean:
